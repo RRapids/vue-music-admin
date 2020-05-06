@@ -1,9 +1,9 @@
 <template>
   <div>
+    <v-date-picker v-model="date" full-width :landscape="$vuetify.breakpoint.smAndUp" class="mt-4"></v-date-picker>
     <v-parallax src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"></v-parallax>
-    <v-row>
-      <v-date-picker v-model="date" full-width :landscape="$vuetify.breakpoint.smAndUp" class="mt-4"></v-date-picker>
 
+    <v-row>
       <v-col v-for="(item, i) in items" :key="i" cols="6">
         <v-card :color="item.color" dark>
           <div class="d-flex flex-no-wrap justify-space-between">

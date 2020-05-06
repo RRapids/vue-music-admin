@@ -149,7 +149,8 @@ export default {
     changeAvatar: function() {
       var _this = this
       let formData = new FormData()
-      alert(event.target.files[0].name)
+      // alert(event.target.files[0].name)
+      alert('确认修改？')
       formData.append('file', event.target.files[0])
       this.$http({
         method: 'post',
@@ -171,7 +172,7 @@ export default {
     },
     update() {
       this.updateuser.id = this.admin.id
-      alert(this.admin.id)
+      alert('确认修改？')
       this.axios.post(this.GLOBAL.baseUrl + '/sysAdmin/profile', this.updateuser).then((res) => {
         console.log(res.data.data)
         this.$store.commit('setName', this.updateuser.newname)

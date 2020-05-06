@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <v-container>
     <h3>授权管理</h3>
-  </div>
+  </v-container>
 </template>
 
 <script>

@@ -1,12 +1,19 @@
 <template>
   <div>
     <span>
-      <mu-button class="gutter" @click="expor()">导出</mu-button>
+      <mu-button class="gutter" @click="exportmusic()">导出</mu-button>
     </span>
     <span>
       <mu-text-field v-model="keywords" placeholder="输入关键词搜索"></mu-text-field>
       <mu-button color="success" @click="search()">搜索</mu-button>
     </span>
+    <!-- <v-row>
+      <v-col md="6" class="d-flex flex-row">
+        <v-btn v-for="(item, index) in menus" :key="index" :color="item.icon" class="mr-3" @click="handleClick(item.title)" large>
+          {{ item.title }}
+        </v-btn>
+      </v-col>
+    </v-row> -->
 
     <v-row justify="space-around">
       <v-col cols="12" sm="18" md="15" lg="30">
@@ -31,7 +38,6 @@
                 <v-list-item-subtitle>创建时间：{{ child.create_time }}</v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-avatar tile size="80" color="grey"><img :src="child.thumbnail" alt=""/></v-list-item-avatar>
-              <!-- <v-img :src="child.thumbnail" size="80"></v-img> -->
             </v-list-item>
 
             <v-card-actions>
@@ -39,6 +45,32 @@
               <v-btn text>Delete</v-btn>
             </v-card-actions>
           </v-card>
+        </div>
+      </mu-col>
+    </mu-row>
+
+    <mu-row v-else>
+      <mu-col span="4" v-for="(item, index) in songList" :key="index">
+        <div class="grid-cell">
+          <template>
+            <v-card class="mx-auto" max-width="400">
+              <v-img class="white--text align-end" height="200px" :src="item.thumbnail"></v-img>
+
+              <v-card-subtitle class="pb-0">{{ item.songListName }}</v-card-subtitle>
+
+              <v-card-text class="text--primary">
+                <div>歌曲数：{{ item.songCount }}</div>
+                <div>收藏数：{{ item.likeCount }}</div>
+                <!-- <div>创建时间：{{ child.create_time }}</div> -->
+              </v-card-text>
+
+              <v-card-actions>
+                <mu-button flat color="primary">Enter</mu-button>
+                <mu-button flat color="secondary">Explore</mu-button>
+                <mu-button flat color="success">Delete</mu-button>
+              </v-card-actions>
+            </v-card>
+          </template>
         </div>
       </mu-col>
     </mu-row>
@@ -61,6 +93,9 @@ export default {
     }
   },
   created() {
+    console.log(this.$options.name)
+    this.$store.commit('setMenuList', JSON.parse(localStorage.getItem('menuList')))
+    this.menuList = this.$store.state.menuList
     for (let i = 0; i < this.menuList.length; i++) {
       let parent = this.menuList[i]
       for (let j = 0; j < parent.subMenus.length; j++) {
@@ -77,6 +112,17 @@ export default {
     })
   },
   methods: {
+    handleClick(title) {
+      if (title === '查询') {
+        this.search()
+      }
+      if (title === '导出') {
+        this.export()
+      }
+      if (title === '删除') {
+        this.delete()
+      }
+    },
     showList(Id) {
       this.show = !this.show
       this.typeId = Id
@@ -94,6 +140,14 @@ export default {
         this.songList = res.data.data
       })
       this.show = !this.show
+    },
+    exportmusic() {
+      this.axios.get(this.GLOBAL.baseUrl + '/song/export').then((res) => {
+        if (res.data.code === 1) {
+          alert('导出成功')
+        }
+      })
+      console.log('click')
     }
   }
 }
