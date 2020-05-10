@@ -90,7 +90,7 @@
               <mu-text-field type="password" v-model="updateuser.password"></mu-text-field>
             </mu-form-item>
             <mu-form-item>
-              <mu-button color="primary" @click="update()">重置</mu-button>
+              <mu-button color="primary" @click="update()">Commit</mu-button>
               <mu-button color="blue" class="right" @click="show = !show">Cancel</mu-button>
             </mu-form-item>
           </mu-form>
@@ -211,7 +211,7 @@ export default {
     width: 400px;
     height: 300px;
     line-height: 100px;
-    background-color: #fff;
+    background-color: rgb(255, 255, 255, 0.8);
     border-radius: 10px;
     text-align: center;
     padding-top: 50px;

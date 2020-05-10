@@ -1,14 +1,36 @@
 <template>
-  <v-app class="animated zoomIn move ml-6 mr-6 pt-6">
-    <v-row>
-      <v-col md="4" class="d-flex flex-row">
-        <v-text-field v-model="keywords" :counter="10" label="keywords" required></v-text-field>
-        <v-btn v-for="(item, index) in menus" :key="index" :color="item.icon" class="mr-3" @click="handleClick(item.title)" large>
-          {{ item.title }}
-        </v-btn>
-      </v-col>
-    </v-row>
-  </v-app>
+  <div>
+    <v-card max-width="1000" class="mx-auto">
+      <v-toolbar color="teal" dark>
+        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+        <v-toolbar-title>Settings</v-toolbar-title>
+      </v-toolbar>
+
+      <v-list subheader two-line flat>
+        <v-subheader>type management</v-subheader>
+
+        <v-list-item-group v-model="settings" multiple>
+          <v-list-item v-for="(item, index) in types" :key="index">
+            <v-list-item-action>
+              <v-checkbox color="primary"></v-checkbox>
+            </v-list-item-action>
+
+            <v-list-item-content>
+              <v-list-item-title>{{ item.type }}</v-list-item-title>
+              <v-list-item-subtitle>Allow notifications</v-list-item-subtitle>
+            </v-list-item-content>
+
+            <v-list-item-action>
+              <v-btn class="mx-2" fab dark small color="teal">
+                <v-icon dark>mdi-minus</v-icon>
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -18,23 +40,18 @@ export default {
     return {
       keywords: '',
       menus: [],
-      menuList: this.$store.state.menuList
+      types: [],
+      settings: []
     }
   },
   mounted() {},
   created() {
     console.log(this.$options.name)
-    this.$store.commit('setMenuList', JSON.parse(localStorage.getItem('menuList')))
-    this.menuList = this.$store.state.menuList
-    for (let i = 0; i < this.menuList.length; i++) {
-      let parent = this.menuList[i]
-      for (let j = 0; j < parent.subMenus.length; j++) {
-        let child = this.menuList[i]
-        if (child.subMenus[j].path === this.$options.name) {
-          this.menus = child.subMenus[j].subMenus
-        }
-      }
-    }
+    //获取所有歌曲
+    this.axios.get(this.GLOBAL.baseUrl + '/songList/type').then((res) => {
+      this.types = res.data.data
+      console.log(this.types)
+    })
   },
   methods: {}
 }

@@ -1,14 +1,12 @@
 <template>
   <v-app>
-    <v-app-bar color="cyan" dense dark height="80" app>
-      <v-app-bar-nav-icon @click="$router.push('/')"></v-app-bar-nav-icon>
-      <v-toolbar-title>Page title</v-toolbar-title>
+    <!-- 顶部导航 -->
+    <v-app-bar dense dark height="80" app>
+      <!-- <v-app-bar-nav-icon @click="$router.push('/')"></v-app-bar-nav-icon> -->
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-toolbar-title>{{ user.login }}</v-toolbar-title>
 
       <v-spacer></v-spacer>
-
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
 
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
@@ -31,65 +29,63 @@
         </v-list>
       </v-menu>
     </v-app-bar>
+    <!-- 内容 -->
     <v-content>
       <v-container>
-        <v-row justify="center">
-          <v-col cols="12" md="6">
-            <v-list>
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-icon color="red">mdi-heart</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title> html_url:{{ user.html_url }} </v-list-item-title>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-icon color="orange">mdi-bell</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title> id:{{ user.id }} </v-list-item-title>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-icon color="cyan">mdi-account</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title> name:{{ user.name }} </v-list-item-title>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-icon color="cyan">mdi-heart</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title> followers:{{ user.followers }} </v-list-item-title>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-icon color="cyan">mdi-heart</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title> following:{{ user.following }} </v-list-item-title>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-icon color="cyan">mdi-heart</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title> public_repos:{{ user.public_repos }} </v-list-item-title>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-icon color="cyan">mdi-heart</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title> public_repos:{{ user.public_repos }} </v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-col>
-          <v-col cols="12" md="4">
+        <v-row>
+          <!-- 头像 -->
+          <v-col cols="12" md="3">
             <v-card>
-              <v-card-title>
-                <v-img :src="user.avatar_url"></v-img>
-              </v-card-title>
-              <v-card-text>
-                <p>{{ user.name }}</p>
-              </v-card-text>
+              <v-img :src="user.avatar_url"></v-img>
             </v-card>
           </v-col>
+          <!-- 右上 -->
+          <v-card width="800px">
+            <v-tabs v-model="tab">
+              <v-tab>
+                Repositories
+                <div class="my-2">
+                  <v-btn depressed small>{{ user.public_repos }}</v-btn>
+                </div>
+              </v-tab>
+
+              <v-tab>
+                Stars
+                <div class="my-2">
+                  <v-btn depressed small>13</v-btn>
+                </div>
+              </v-tab>
+
+              <v-tab>
+                Following
+                <div class="my-2">
+                  <v-btn depressed small>{{ user.following }}</v-btn>
+                </div>
+              </v-tab>
+            </v-tabs>
+            <!-- 组件 -->
+            <v-tabs-items v-model="tab">
+              <!-- Repositories -->
+              <v-tab-item>
+                <Repositories />
+              </v-tab-item>
+              <!-- Stars -->
+              <v-tab-item>
+                <Stars />
+              </v-tab-item>
+              <!--following  -->
+              <v-tab-item>
+                <Following />
+              </v-tab-item>
+              <!-- 按钮封装 -->
+              <!-- <v-tab-item>
+                <Btn>默认按钮</Btn>
+                <Btn type="error">红色按钮</Btn>
+                <Btn type="success">绿色按钮</Btn>
+                <Btn type="primary">蓝色按钮</Btn>
+              </v-tab-item> -->
+            </v-tabs-items>
+          </v-card>
         </v-row>
       </v-container>
     </v-content>
@@ -97,14 +93,26 @@
 </template>
 
 <script>
+import Repositories from '../../components/Repositories'
+import Stars from '../../components/Stars'
+// import Followers from '../../components/Followers'
+import Following from '../../components/Following'
+// import Btn from '../../components/Button'
 export default {
   name: 'Auth',
   data() {
     return {
-      user: null
+      user: null,
+      tab: null,
+      following: []
     }
   },
-  components: {},
+  components: {
+    Repositories,
+    Stars,
+    // Followers,
+    Following
+  },
   created() {
     console.log('回调')
     let user = this.$route.query.user
@@ -121,6 +129,11 @@ export default {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       this.$router.push('/login')
+    },
+    confirm() {
+      if (!this.companyName) {
+        this.$refs.btn.cancel()
+      }
     }
   },
   computed: {}

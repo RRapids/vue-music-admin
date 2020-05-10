@@ -7,19 +7,11 @@
       <mu-text-field v-model="keywords" placeholder="输入关键词搜索"></mu-text-field>
       <mu-button color="success" @click="search()">搜索</mu-button>
     </span>
-    <!-- <v-row>
-      <v-col md="6" class="d-flex flex-row">
-        <v-btn v-for="(item, index) in menus" :key="index" :color="item.icon" class="mr-3" @click="handleClick(item.title)" large>
-          {{ item.title }}
-        </v-btn>
-      </v-col>
-    </v-row> -->
 
     <v-row justify="space-around">
       <v-col cols="12" sm="18" md="15" lg="30">
         <v-sheet elevation="10" class="pa-4" style="padding:15px">
-          <h2 class="title mb-2">All Types</h2>
-          <v-btn text color="primary" v-for="(type, index) in types" :key="index" :value="index" @click="showList(index)">
+          <v-btn text v-for="(type, index) in types" :key="index" :value="index" @click="showList(index)">
             {{ type.type }}
           </v-btn>
         </v-sheet>
@@ -65,7 +57,6 @@
               </v-card-text>
 
               <v-card-actions>
-                <mu-button flat color="primary">Enter</mu-button>
                 <mu-button flat color="secondary">Explore</mu-button>
                 <mu-button flat color="success">Delete</mu-button>
               </v-card-actions>
@@ -147,7 +138,7 @@ export default {
           alert('导出成功')
         }
       })
-      console.log('click')
+      console.log('export')
     }
   }
 }

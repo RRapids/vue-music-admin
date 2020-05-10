@@ -1,23 +1,13 @@
 <template>
   <v-container>
-    <h3>菜单管理</h3>
+    <v-btn class="mx-2" fab dark color="teal">
+      <v-icon dark>mdi-format-list-bulleted-square</v-icon>
+    </v-btn>
   </v-container>
 </template>
 
 <script>
-export default {
-  name: 'Menu',
-  data() {
-    return {
-      menus: this.$store.state.menuList[1].subMenus[1].subMenus
-    }
-  },
-  components: {},
-  created() {},
-  mounted() {},
-  methods: {},
-  computed: {}
-}
+export default {}
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

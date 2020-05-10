@@ -11,7 +11,7 @@ axios.defaults.baseURL = 'http://localhost:8080'
 
 Vue.use(VueAxios, axios)
 
-Vue.use(MuseUI)
+Vue.use(MuseUI, vuetify)
 Vue.config.productionTip = false
 
 import global_ from '@/utils/Global'

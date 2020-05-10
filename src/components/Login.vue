@@ -1,5 +1,5 @@
 <template>
-  <div class="bg">
+  <div>
     <mu-container>
       <mu-form ref="form" :model="validateForm" class="login-form">
         <mu-form-item label="用户名" prop="username" :rules="usernameRules">
@@ -159,18 +159,9 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-.bg {
-  background-image: url('../../assets/images/bg.jpg');
-  opacity: 0.8;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+<style lang="scss" scoped>
 .login-form {
-  max-width: 500px;
-  margin-left: 300px;
+  width: 500px;
   background-color: rgb(255, 255, 255, 0.3);
   border-radius: 10px;
   padding: 10px;

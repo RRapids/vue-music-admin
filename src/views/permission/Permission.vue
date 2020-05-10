@@ -1,6 +1,8 @@
 <template>
   <v-container>
-    <h3>授权管理</h3>
+    <v-btn class="mx-2" fab dark color="cyan">
+      <v-icon dark>mdi-pencil</v-icon>
+    </v-btn>
   </v-container>
 </template>
 

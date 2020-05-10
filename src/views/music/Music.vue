@@ -4,14 +4,13 @@
       <v-card-title>
         <span class="b-btn">
           <v-btn color="Disabled" @click="expor()">导出</v-btn>
-          <v-btn color="error">删除</v-btn>
         </span>
         <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
           append-icon="mdi-magnify"
           label="Search"
-          @keyup.enter="cha()"
+          @keyup.enter="_search()"
           single-line
           hide-details
         ></v-text-field>
@@ -26,9 +25,9 @@ export default {
   name: 'Music',
   data() {
     return {
-      menuList: this.$store.state.menuList,
       search: '',
       headers: [
+        { text: '', value: 'song_id' },
         {
           text: '歌曲',
           align: 'start',
@@ -36,26 +35,16 @@ export default {
           value: 'song_name'
         },
         { text: '歌手', value: 'singer' },
-        { text: '喜欢数(w)', value: 'like_count' },
-        { text: '评论数(w)', value: 'comment_count' },
-        { text: '创建时间', value: 'create_time' },
-        { text: '时长', value: 'duration' }
+        // { text: '喜欢数', value: 'like_count' },
+        { text: '评论数', value: 'comment_count' },
+        { text: '时长', value: 'duration' },
+        { text: '创建时间', value: 'create_time' }
       ],
       desserts: []
     }
   },
   created() {
     console.log(this.$options.name)
-    for (let i = 0; i < this.menuList.length; i++) {
-      let parent = this.menuList[i]
-      for (let j = 0; j < parent.subMenus.length; j++) {
-        let child = this.menuList[i]
-        if (child.subMenus[j].path === this.$options.name) {
-          this.menus = child.subMenus[j].subMenus
-          console.log(JSON.stringify(this.menus))
-        }
-      }
-    }
     this.axios.get(this.GLOBAL.baseUrl + '/song/list').then((res) => {
       this.desserts = res.data.data
       console.log(this.desserts)
@@ -63,7 +52,7 @@ export default {
   },
   methods: {
     //模糊查询歌曲
-    cha() {
+    _search() {
       this.axios({
         method: 'get',
         url: this.GLOBAL.baseUrl + '/songList/select',
@@ -76,14 +65,12 @@ export default {
       })
     },
     expor() {
-      this.axios({
-        method: 'get',
-        url: this.GLOBAL.baseUrl + '/song/export'
-      }).then((res) => {
+      this.axios.get(this.GLOBAL.baseUrl + '/song/export').then((res) => {
         if (res.data.code === 1) {
           alert('导出成功')
         }
       })
+      console.log('export')
     }
   }
 }
